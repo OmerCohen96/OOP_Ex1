@@ -4,6 +4,11 @@ package observer;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * this class represent an Observer object that notify all the Members (Observables) about any change in the
+ * UndoableStringBuilder object
+ */
+
 public final class GroupAdmin implements Sender{
 
     private final UndoableStringBuilder builder;
@@ -14,6 +19,11 @@ public final class GroupAdmin implements Sender{
         this.memberList = new LinkedList<>();
     }
 
+    /**
+        add a Member object into the Memberlist
+        @param obj - object that implement Member interface (Observable pattern)
+     */
+
     @Override
     public void register(Member obj) {
         ConcreteMember temp = (ConcreteMember)obj;
@@ -21,6 +31,10 @@ public final class GroupAdmin implements Sender{
         memberList.add(obj);
     }
 
+    /**
+     * remove a Member from the Memberlist
+     * @param obj - receive the address of the object we want to remove
+     */
     @Override
     public void unregister(Member obj) {
         ConcreteMember temp = (ConcreteMember)obj;
@@ -28,13 +42,16 @@ public final class GroupAdmin implements Sender{
         memberList.remove(obj);
     }
 
-    /*
-
+    /**
+     * notify all the Members that register to this object about any change in the builder object
+     * (pass on all the members and activate the @Update function)
      */
 
-    private void notifyAllMembers () {
-        for (Member m : memberList){
-            m.update(getBuilder());
+    public void notifyAllMembers () {
+        if (!(memberList.isEmpty())) {
+            for (Member m : memberList) {
+                m.update(getBuilder());
+            }
         }
     }
 
