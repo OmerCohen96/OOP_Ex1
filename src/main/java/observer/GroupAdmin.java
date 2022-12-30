@@ -26,9 +26,11 @@ public final class GroupAdmin implements Sender{
 
     @Override
     public void register(Member obj) {
-        ConcreteMember temp = (ConcreteMember)obj;
-        temp.getRegister(this);
-        memberList.add(obj);
+        if (obj instanceof Member) {
+            ConcreteMember temp = (ConcreteMember) obj;
+            temp.getRegister(this);
+            memberList.add(obj);
+        }
     }
 
     /**
@@ -37,9 +39,11 @@ public final class GroupAdmin implements Sender{
      */
     @Override
     public void unregister(Member obj) {
-        ConcreteMember temp = (ConcreteMember)obj;
-        temp.getUnRegister();
-        memberList.remove(obj);
+        if (obj instanceof Member) {
+            ConcreteMember temp = (ConcreteMember) obj;
+            temp.getUnRegister();
+            memberList.remove(obj);
+        }
     }
 
     /**
@@ -47,7 +51,7 @@ public final class GroupAdmin implements Sender{
      * (pass on all the members and activate the @Update function)
      */
 
-    public void notifyAllMembers () {
+    private void notifyAllMembers () {
         if (!(memberList.isEmpty())) {
             for (Member m : memberList) {
                 m.update(getBuilder());
@@ -81,6 +85,10 @@ public final class GroupAdmin implements Sender{
 
     public UndoableStringBuilder getBuilder(){
         return this.builder;
+    }
+
+    public List<Member> getMemberList() {
+        return memberList;
     }
 
     public String toString () {
